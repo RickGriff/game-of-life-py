@@ -1,6 +1,6 @@
-# object representing all neighbour states of a cell in a grid.
-# DataGrid passes neighbour states to the cell
-# Cell sets it's own state according to its update rules and its received neighbourStates
+# Object representing all neighbour states of a cell in a grid.
+# DataGrid passes a NeighbourStates to the Cell, and the Cell sets
+# it's own state according to its update rules and its received NeighbourStates.
 
 class NeighbourStates:
     def __init__(self, cell, grid):

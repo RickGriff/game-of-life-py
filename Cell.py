@@ -11,7 +11,7 @@ class RGBStates(Enum):
     GREEN = 3
     BLUE = 4
 
-# Cell implements classic Conway Game of Life Rules
+# Cell implements classic Conway Game of Life rules
 class Cell:
     def __init__(self, row, col):
         self.state = States.DEAD
@@ -31,6 +31,7 @@ class Cell:
                 return States.ALIVE
             elif pop > 3:
                 return States.DEAD
+       
         # viral spread rule:
         def viralSpread(pop):
             if pop > 0:
@@ -52,8 +53,8 @@ class Cell:
         self.state = self.nextState
 
 # RGBCell implements 'largest neighbour' rules: 
-# Cell takes the colour of the most frequent neighbouring colour. 
-# If two neighbouring colours have equal count, randomly choose between them.
+# -Cell takes the colour of the most frequent neighbouring colour. 
+# -If two neighbouring colours have equal count, randomly choose between them.
 class RGBCell(Cell):
     def __init__(self, row, col):
         self.row = row
@@ -90,18 +91,17 @@ class RGBCell(Cell):
             return RGBStates(randint(2,4))
 
 
-#CyclicRGB Implements RGB largest neighbour rules for dead cells, and 'cyclical eating' for live cells:
+# CyclicRGB implements RGB largest neighbour rules for dead cells, and 'cyclical eating' for live cells:
 # Red eats Green, Green eats Blue, Blue eats Red.
 class CyclicRGBCell(RGBCell):
-     # overrides parent method
 
+    # dead cells are subject to 'largest neighbour' eating
     def getBirthState(self, statesCount):
-           # grab all states that share the max count
         highest = max(statesCount.values()) 
         maxStates = [state for state, count in statesCount.items() if count == highest and count > 0]
 
         if len(maxStates) == 0:
-            return RGBStates.DEAD  # stay dead if surrounded by dead neighbours
+            return self.state  # stay dead if surrounded by dead neighbours
         else:
             return choice(list(maxStates))
 
